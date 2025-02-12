@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can I Be Your Valentine?</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffe6e6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #d32f2f;
+        }
+        .heart {
+            color: red;
+            font-size: 30px;
+        }
+        label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        input, button, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        .message {
+            font-size: 18px;
+            margin-top: 15px;
+            color: #388e3c;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="heart">❤️</span></h1>
+        <p>Just let me know:</p>
+        
+        <form id="valentineForm">
+            <label>Your Email 📩</label>
+            <input type="email" id="valentineEmail" placeholder="Your email" required>
+
+            <label>Where do you want to eat?</label>
+            <select id="food" required>
+                <option value="Jollibee">Jollibee</option>
+                <option value="McDonald's">McDonald's</option>
+                <option value="Chowking">Chowking</option>
+                <option value="Mang Inasal">Mang Inasal</option>
+                <option value="KFC">KFC</option>
+            </select>
+            
+            <label>What time are you free? 📅</label>
+            <input type="time" id="time" required>
+
+            <label>Where do you want to go?</label>
+            <select id="place" required>
+                <option value="Market Market">Market Market</option>
+                <option value="Sm Aura">Sm Aura</option>
+                <option value="Uptown Mall">Uptown Mall</option>
+            </select>
+            
+            <button type="button" onclick="sendEmail()">Send My Answer 💌</button>
+        </form>
+
+        <p class="message" id="confirmation">Your response has been sent! 💕</p>
+    </div>
+
+    <script>
+        (function(){
+            emailjs.init("f1EuzNOQHt4Io_G6C"); // Replace with your EmailJS Public Key
+        })();
+    
+        function sendEmail() {
+            let valentineEmail = document.getElementById("valentineEmail").value;
+            let food = document.getElementById("food").value;
+            let time = document.getElementById("time").value;
+            let place = document.getElementById("place").value;
+    
+            let myEmail = "ezjustin99@gmail.com"; // Replace with your Gmail
+            let herEmail = "ezjustin09@gmail.com"; // Replace with her Gmail
+    
+            if (food && time && place && valentineEmail) {
+                let templateParams = {
+                    to_email: `${myEmail}, ${herEmail}`, // Sending to both emails
+                    valentineEmail: valentineEmail,
+                    food: food,
+                    date: time,
+                    place: place
+                };
+    
+                emailjs.send("service_4h505tn", "template_iy2zl8n", templateParams)
+                    .then(function(response) {
+                        console.log("Email sent successfully!", response);
+                        document.getElementById("confirmation").style.display = "block";
+                    }, function(error) {
+                        console.error("Failed to send email:", error);
+                        alert("Failed to send email. Please try again.");
+                    });
+            } else {
+                alert("Please fill in all fields!");
+            }
+        }
+    </script>
+    
+</body>
+</html>
